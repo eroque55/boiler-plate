@@ -1,36 +1,23 @@
 import '@/global.css';
 
-import {
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-  Poppins_800ExtraBold,
-  Poppins_900Black,
-  useFonts,
-} from '@expo-google-fonts/poppins';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { setDefaultOptions } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
+import { Slot, SplashScreen } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { Dimensions, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { KeyboardProvider } from 'react-native-keyboard-controller';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-import Toast from 'react-native-toast-message';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import Toast, { ErrorToast } from 'react-native-toast-message';
 
-import toastConfig from '@/components/Toast';
-import ToastOverlay from '@/components/ToastOverlay';
 import AuthProvider from '@/hooks/useAuth';
 import useUpdate from '@/hooks/useUpdate';
 
 export { ErrorBoundary } from '@/components/ErrorBoundary';
+
+const toastConfig = {
+  error: (props: any) => <ErrorToast {...props} text1NumberOfLines={2} />,
+};
 
 setDefaultOptions({ locale: ptBR });
 
@@ -47,18 +34,8 @@ export const queryClient = new QueryClient({
 SplashScreen.preventAutoHideAsync();
 
 const App = () => {
-  const [isToastVisible, setToastIsVisible] = useState(false);
   const isLoading = useUpdate();
-  const { top, bottom, left, right } = useSafeAreaInsets();
-  const { height } = Dimensions.get('screen');
-  const [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-    Poppins_900Black,
-  });
+  const [fontsLoaded] = useFonts({});
 
   const isAppReady = !isLoading && fontsLoaded;
 
@@ -68,43 +45,19 @@ const App = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <KeyboardProvider>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider isAppReady={isAppReady}>
-            <SafeAreaProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider isAppReady={isAppReady}>
+          <SafeAreaProvider>
+            <SafeAreaView style={{ flex: 1 }}>
               <StatusBar style="auto" />
 
-              <Stack
-                screenOptions={{
-                  animation: 'fade',
-                  animationDuration: 300,
-                  headerShown: false,
-                  contentStyle: {
-                    backgroundColor: '#F5F7F9',
-                    paddingTop: top,
-                    paddingBottom: bottom,
-                    paddingLeft: left,
-                    paddingRight: right,
-                  },
-                }}
-              />
+              <Slot />
 
-              <ToastOverlay isVisible={isToastVisible} />
-
-              <View className="z-50">
-                <Toast
-                  onHide={() => setToastIsVisible(false)}
-                  onShow={() => setToastIsVisible(true)}
-                  config={toastConfig}
-                  position="bottom"
-                  bottomOffset={height / 2}
-                  autoHide={false}
-                />
-              </View>
-            </SafeAreaProvider>
-          </AuthProvider>
-        </QueryClientProvider>
-      </KeyboardProvider>
+              <Toast config={toastConfig} />
+            </SafeAreaView>
+          </SafeAreaProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </GestureHandlerRootView>
   );
 };
