@@ -1,17 +1,9 @@
 const colors = {
   primary: {
-    100: '#0B2540',
-    80: '#0E3255',
-    60: '#123E6A',
-    40: '#467AAA',
-    20: '#9DC3E8',
+    100: '#0081A7',
   },
   secondary: {
-    100: '#402C0C',
-    80: '#563B10',
-    60: '#6B4A14',
-    40: '#C19F60',
-    20: '#FFEFD5',
+    100: '#E76F51',
   },
   neutral: {
     black: '#000000',
@@ -21,6 +13,8 @@ const colors = {
     40: '#A2A2A2',
     20: '#D1D0D0',
     white: '#FFFFFF',
+    background: '#F5F5F5',
+    placeholder: '#E5E5E5',
   },
   alert: {
     success: {

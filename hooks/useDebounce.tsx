@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export const useDebounce = <T,>(value: T, delay = 1000) => {
   // State and setters for debounced value
@@ -19,4 +19,28 @@ export const useDebounce = <T,>(value: T, delay = 1000) => {
     [value, delay], // Only re-call effect if value or delay changes
   );
   return debouncedValue;
+};
+
+export const useDisableDelay = (delay = 1000) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const executeWithDelay = useCallback(
+    async (func: () => void | Promise<void>) => {
+      if (isLoading) {
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        await func();
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, delay);
+      }
+    },
+    [isLoading, delay],
+  );
+
+  return { executeWithDelay, isLoading };
 };

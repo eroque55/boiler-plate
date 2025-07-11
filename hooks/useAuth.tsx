@@ -1,5 +1,7 @@
-/* eslint-disable react/jsx-no-constructed-context-values */
-import React, {
+import { useRouter } from 'expo-router';
+import { deleteItemAsync, getItemAsync, setItemAsync } from 'expo-secure-store';
+import * as SplashScreen from 'expo-splash-screen';
+import {
   createContext,
   ReactNode,
   useContext,
@@ -7,37 +9,23 @@ import React, {
   useState,
 } from 'react';
 
-import { deleteItemAsync, getItemAsync, setItemAsync } from 'expo-secure-store';
-import { api } from '@/services/api';
-import { SplashScreen, useRouter, useSegments } from 'expo-router';
-
-export interface IResponseLogin {
-  user: User;
-  access_token: string;
-  refresh_token: string;
-}
-
-enum Roles {
-  User = 'user',
-}
-
-export interface User {
-  avatar: string | null;
-  created_at: string;
-  email: string;
-  id: string;
-  name: string;
-  phone: string;
-  role: Roles;
-  updated_at: string;
-}
+import { IUser } from '@/interfaces/user';
+import api from '@/services/api.service';
+import {
+  useFetchUser,
+  useLogin,
+  useRefreshAccessToken,
+} from '@/services/login.service';
+import { handleError } from '@/utils/handleError';
+import { LoginForm } from '@/validation/Login.validation';
 
 interface IUserProvider {
-  user: User;
+  user: IUser;
   isAuthenticated: boolean;
   logout: () => Promise<void>;
-  login: (user: IResponseLogin) => Promise<void>;
+  login: (user: LoginForm) => Promise<void>;
   loading: boolean;
+  fetchUser: () => Promise<void>;
 }
 
 interface ChildrenProps {
@@ -48,10 +36,13 @@ interface ChildrenProps {
 const AuthContext = createContext({} as IUserProvider);
 
 const AuthProvider = ({ children, isAppReady }: ChildrenProps) => {
-  const [user, setUser] = useState<User>({} as User);
-  const [loading, setLoading] = useState(true);
+  const { mutateAsync: loginService } = useLogin();
+  const { mutateAsync: refreshService } = useRefreshAccessToken();
+  const { refetch } = useFetchUser();
 
   const router = useRouter();
+  const [user, setUser] = useState<IUser>({} as IUser);
+  const [loading, setLoading] = useState(true);
 
   const isAuthenticated = user.id !== undefined;
 
@@ -60,15 +51,13 @@ const AuthProvider = ({ children, isAppReady }: ChildrenProps) => {
 
     if (refreshToken) {
       try {
-        const { data } = await api.put('/user/session', {
-          refresh_token: refreshToken,
-        });
-        await setItemAsync('accessToken', data.accessToken);
-        await setItemAsync('refreshToken', data.refreshToken);
+        const data = await refreshService(refreshToken);
 
-        setUser(data.user);
-        return data?.access_token;
-      } catch (err) {
+        await setItemAsync('accessToken', data.jwt);
+
+        await fetchUser();
+        return data.jwt;
+      } catch {
         deleteItemAsync('accessToken');
         deleteItemAsync('refreshToken');
       }
@@ -78,6 +67,7 @@ const AuthProvider = ({ children, isAppReady }: ChildrenProps) => {
   api.interceptors.response.use(
     response => response,
     async error => {
+      console.log(error);
       const originalRequest = error.config;
       if (error.message === 'Network Error') {
         return Promise.reject(new Error('Sem conexão com a internet!'));
@@ -88,8 +78,8 @@ const AuthProvider = ({ children, isAppReady }: ChildrenProps) => {
         return logout();
       }
       if (
-        error.response.status === 401 &&
-        originalRequest.url !== '/user/session' &&
+        error?.response?.status === 401 &&
+        originalRequest.url !== 'auth/local/refresh' &&
         !originalRequest.retry
       ) {
         originalRequest.retry = true;
@@ -106,35 +96,47 @@ const AuthProvider = ({ children, isAppReady }: ChildrenProps) => {
   }, []);
 
   useEffect(() => {
-    if (isAuthenticated && isAppReady && !loading) {
-      router.push('/Home/');
-      setTimeout(() => {
-        SplashScreen.hideAsync();
-      }, 500);
-    } else if (isAppReady && !loading) {
-      router.push('/Login/');
+    if (isAppReady && !loading) {
       SplashScreen.hideAsync();
     }
-  }, [isAuthenticated, isAppReady, loading]);
+  }, [isAppReady, loading]);
 
-  const login = async (_user: IResponseLogin) => {
-    await setItemAsync('accessToken', _user.access_token);
-    if (_user.refresh_token) {
-      await setItemAsync('refreshToken', _user.refresh_token);
+  const fetchUser = async () => {
+    const { data } = await refetch();
+
+    if (data) {
+      setUser(data);
     }
+  };
 
-    setUser(_user.user);
+  const login = async (form: LoginForm) => {
+    try {
+      const data = await loginService(form);
+
+      await setItemAsync('accessToken', data.jwt);
+      if (data.refreshToken && form?.requestRefresh) {
+        await setItemAsync('refreshToken', data.refreshToken);
+      }
+
+      await fetchUser();
+
+      router.replace('/(main)/Home');
+    } catch (err) {
+      await deleteItemAsync('accessToken');
+      await deleteItemAsync('refreshToken');
+      handleError(err);
+    }
   };
 
   const logout = async () => {
-    setUser({} as User);
+    setUser({} as IUser);
     await deleteItemAsync('accessToken');
     await deleteItemAsync('refreshToken');
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, logout, login, loading }}
+      value={{ user, isAuthenticated, logout, login, loading, fetchUser }}
     >
       {children}
     </AuthContext.Provider>

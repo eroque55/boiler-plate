@@ -4,14 +4,24 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { setDefaultOptions } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useFonts } from 'expo-font';
-import { Slot, SplashScreen } from 'expo-router';
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
+import {
+  SafeAreaProvider,
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import Toast, { ErrorToast } from 'react-native-toast-message';
 
+import DefaultModal from '@/components/DefaultModal';
+import { DefaultModalProvider } from '@/contexts/defaultModalContext';
+import colors from '@/global/colors';
 import AuthProvider from '@/hooks/useAuth';
 import useUpdate from '@/hooks/useUpdate';
+import { handleError } from '@/utils/handleError';
 
 export { ErrorBoundary } from '@/components/ErrorBoundary';
 
@@ -28,6 +38,9 @@ export const queryClient = new QueryClient({
       retry: false,
       initialDataUpdatedAt: 0,
     },
+    mutations: {
+      onError: err => handleError(err),
+    },
   },
 });
 
@@ -35,6 +48,7 @@ SplashScreen.preventAutoHideAsync();
 
 const App = () => {
   const isLoading = useUpdate();
+  const { top, bottom, left, right } = useSafeAreaInsets();
   const [fontsLoaded] = useFonts({});
 
   const isAppReady = !isLoading && fontsLoaded;
@@ -45,19 +59,38 @@ const App = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider isAppReady={isAppReady}>
-          <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1 }}>
-              <StatusBar style="auto" />
+      <KeyboardProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider isAppReady={isAppReady}>
+            <SafeAreaProvider>
+              <DefaultModalProvider>
+                <SafeAreaView style={{ flex: 1 }}>
+                  <StatusBar style="auto" />
 
-              <Slot />
+                  <Stack
+                    screenOptions={{
+                      animation: 'fade',
+                      animationDuration: 300,
+                      headerShown: false,
+                      contentStyle: {
+                        backgroundColor: colors.neutral.background,
+                        paddingTop: top,
+                        paddingBottom: bottom,
+                        paddingLeft: left,
+                        paddingRight: right,
+                      },
+                    }}
+                  />
 
-              <Toast config={toastConfig} />
-            </SafeAreaView>
-          </SafeAreaProvider>
-        </AuthProvider>
-      </QueryClientProvider>
+                  <DefaultModal />
+
+                  <Toast config={toastConfig} />
+                </SafeAreaView>
+              </DefaultModalProvider>
+            </SafeAreaProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </KeyboardProvider>
     </GestureHandlerRootView>
   );
 };

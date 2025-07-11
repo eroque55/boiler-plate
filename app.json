@@ -19,7 +19,10 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.mestresdaweb.change-this-name"
+      "package": "com.mestresdaweb.changethisname",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/expo/favicon.png"
@@ -29,12 +32,19 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/expo/splash-icon.png",
+          "image": "./assets/expo/splash-icon-light.png",
           "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "dark": {
+            "image": "./assets/expo/splash-icon-dark.png"
+          }
         }
-      ]
+      ],
+      "expo-secure-store",
+      "expo-font",
+      "expo-system-ui",
+      "expo-web-browser",
+      "expo-image-picker",
+      "expo-dev-client"
     ],
     "experiments": {
       "typedRoutes": true
@@ -42,13 +52,16 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "owner": "mestresdaweb",
+    "owner": "eroque55",
     "scheme": "myapp",
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "extra": {
-      "router": {}
+      "router": {},
+      "eas": {
+        "projectId": "d5773a6f-3979-4e27-98bc-e36a7a5a7fd3"
+      }
     }
   }
 }

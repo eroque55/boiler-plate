@@ -1,107 +1,108 @@
-import { PropsWithChildren, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
   ActivityIndicator,
+  DimensionValue,
+  GestureResponderEvent,
+  Keyboard,
   Text,
-  TextStyle,
   TouchableOpacity,
   TouchableOpacityProps,
-  ViewStyle,
 } from 'react-native';
+import Animated, {
+  AnimatedProps,
+  LinearTransition,
+} from 'react-native-reanimated';
 
-import { IconComponent, IconT } from '@/components/Icon/Icon';
 import colors from '@/global/colors';
-import { useDisableDelay } from '@/hooks/useDisableDelay';
+import { useDisableDelay } from '@/hooks/useDebounce';
 
-interface Props extends TouchableOpacityProps {
-  onPress: () => void;
-  height?: number;
-  bgColor?: string;
-  fontColor?: string;
-  fontSize?: number;
-  style?: ViewStyle;
-  textStyle?: TextStyle;
-  outline?: boolean;
+import Icon, { IconProps } from '../Icon';
+
+const AnimatedTouchableOpacity =
+  Animated.createAnimatedComponent(TouchableOpacity);
+
+type Props = {
+  text?: string;
+  wired?: boolean;
+  color?: string;
+  leftIcon?: IconProps;
+  unavailable?: boolean;
   isLoading?: boolean;
-  iconLeft?: IconT;
   withoutDelay?: boolean;
-}
+  width?: DimensionValue;
+} & TouchableOpacityProps &
+  AnimatedProps<TouchableOpacityProps>;
 
 const Button = ({
-  children,
-  onPress,
-  height = 44,
-  bgColor,
-  fontColor,
-  fontSize = 18,
-  style,
-  textStyle,
-  outline,
-  isLoading,
-  iconLeft,
+  text,
+  wired = false,
+  color = colors.primary[100],
+  unavailable = false,
+  leftIcon,
+  isLoading = false,
   withoutDelay = false,
-  disabled = false,
+  onPress,
+  disabled,
+  width = '100%',
   ...props
-}: PropsWithChildren<Props>) => {
+}: Props) => {
   const { executeWithDelay, isLoading: loading } = useDisableDelay();
 
-  const backgroundColor = useMemo(() => {
-    if (bgColor) {
-      return bgColor;
+  const handleTextColor = useMemo(() => {
+    if (wired) {
+      return color;
     }
-    if (outline) {
-      return colors.primary[100];
-    }
-    return colors.primary[100];
-  }, [bgColor]);
+    return 'white';
+  }, [wired, color]);
 
-  const textColor = useMemo(() => {
-    if (fontColor) {
-      return fontColor;
-    }
-    if (outline) {
-      return colors.primary[100];
-    }
-    return colors.primary[100];
-  }, [fontColor]);
-
-  const handlePress = async () => {
+  const handlePress = async (e: GestureResponderEvent) => {
+    Keyboard.dismiss();
     if (onPress && withoutDelay) {
-      return onPress();
+      return onPress(e);
     }
     if (onPress) {
-      return executeWithDelay(onPress);
-    }
-  };
-
-  const renderIcon = () => {
-    if (iconLeft) {
-      return (
-        <IconComponent name={iconLeft} size={fontSize} color={textColor} />
-      );
+      return executeWithDelay(() => onPress(e));
     }
   };
 
   return (
-    <TouchableOpacity
+    <AnimatedTouchableOpacity
       activeOpacity={0.7}
+      style={{
+        backgroundColor: wired ? 'transparent' : color,
+        borderColor: wired ? color : 'transparent',
+        opacity: unavailable ? 0.5 : 1,
+        width,
+      }}
+      className="flex-row items-center justify-center gap-2 rounded-full border p-2"
+      disabled={unavailable || disabled || loading}
       onPress={handlePress}
-      style={[{ height, backgroundColor }, style]}
-      disabled={disabled || loading}
-      className="flex-row"
+      layout={LinearTransition}
       {...props}
     >
-      {isLoading ? (
-        <ActivityIndicator size={fontSize} color={textColor} />
+      {isLoading || loading ? (
+        <ActivityIndicator size={24} color={handleTextColor} />
       ) : (
         <>
-          {renderIcon()}
+          {leftIcon && (
+            <Icon
+              name={leftIcon.name}
+              size={leftIcon.size || 20}
+              color={handleTextColor}
+            />
+          )}
 
-          <Text style={{ color: textColor, ...textStyle }} className="">
-            {children}
+          <Text
+            className="text-base"
+            style={{
+              color: handleTextColor,
+            }}
+          >
+            {text}
           </Text>
         </>
       )}
-    </TouchableOpacity>
+    </AnimatedTouchableOpacity>
   );
 };
 

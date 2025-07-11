@@ -1,5 +1,4 @@
-/* eslint-disable no-template-curly-in-string */
-import * as z from 'zod';
+import * as z from 'zod/v3';
 
 const customErrorMap: z.ZodErrorMap = issue => {
   if (issue.code === z.ZodIssueCode.invalid_type) {
@@ -27,4 +26,4 @@ const customErrorMap: z.ZodErrorMap = issue => {
 
 z.setErrorMap(customErrorMap);
 
-export { z };
+export default z;
