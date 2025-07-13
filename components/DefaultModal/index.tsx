@@ -3,8 +3,8 @@ import { Text, View } from 'react-native';
 import colors from '@/global/colors';
 import useDefaultModal from '@/hooks/useDefaultModal';
 
-import Button from '../Button';
 import ModalBackdrop from '../ModalBackdrop';
+import Button from '../Ui/Button';
 
 export interface DefaultModalProps {
   type?: 'success' | 'error';

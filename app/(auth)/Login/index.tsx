@@ -6,9 +6,9 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 
-import Button from '@/components/Button';
-import Checkbox from '@/components/Checkbox';
-import Input from '@/components/Input';
+import Button from '@/components/Ui/Button';
+import Checkbox from '@/components/Ui/Checkbox';
+import Input from '@/components/Ui/Input';
 import { useAuth } from '@/hooks/useAuth';
 import { LoginForm, LoginSchema } from '@/validation/Login.validation';
 import { height, width } from 'global/constants';

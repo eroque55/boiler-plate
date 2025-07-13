@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
 
-import Button from '@/components/Button';
+import Button from '@/components/Ui/Button';
 import colors from '@/global/colors';
 import { useAuth } from '@/hooks/useAuth';
 import useDefaultModal from '@/hooks/useDefaultModal';
