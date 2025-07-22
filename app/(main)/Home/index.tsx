@@ -26,13 +26,13 @@ const Home = () => {
   };
 
   return (
-    <View className="flex-1 justify-center gap-20 p-6">
+    <View className="flex-1 items-center justify-center gap-20 p-6">
       <Image
-        source={{ uri: 'https://placehold.co/800x800' }}
-        style={{ width: 400, height: 400 }}
+        source="https://placehold.co/800x800"
+        style={{ width: 200, height: 200 }}
       />
 
-      <View>
+      <View className="w-full">
         <Text className="text-base text-neutral-60">Bem Vindo</Text>
 
         <Text className="text-lg">{user?.email}</Text>
