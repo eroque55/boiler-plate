@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren, useState } from 'react';
 
-import { DefaultModalProps } from '@/components/DefaultModal';
+import { DefaultModalProps } from '@/components/ui/DefaultModal';
 
 interface Props {
   modal: DefaultModalProps | null;

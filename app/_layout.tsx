@@ -16,14 +16,14 @@ import {
 } from 'react-native-safe-area-context';
 import Toast, { ErrorToast } from 'react-native-toast-message';
 
-import DefaultModal from '@/components/DefaultModal';
+import DefaultModal from '@/components/ui/DefaultModal';
 import { DefaultModalProvider } from '@/contexts/defaultModalContext';
 import colors from '@/global/colors';
 import AuthProvider from '@/hooks/useAuth';
 import useUpdate from '@/hooks/useUpdate';
 import { handleError } from '@/utils/handleError';
 
-export { ErrorBoundary } from '@/components/ErrorBoundary';
+export { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 
 const toastConfig = {
   error: (props: any) => <ErrorToast {...props} text1NumberOfLines={2} />,

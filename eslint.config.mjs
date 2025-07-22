@@ -98,6 +98,17 @@ export default defineConfig([
       'no-use-before-define': 'off',
       'react/react-in-jsx-scope': 'off',
 
+      'react/jsx-sort-props': [
+        'error',
+        {
+          callbacksLast: true,
+          shorthandFirst: true,
+          noSortAlphabetically: false,
+          reservedFirst: true,
+          ignoreCase: true,
+        },
+      ],
+
       'jsx-a11y/aria-role': [
         1,
         {
@@ -137,13 +148,23 @@ export default defineConfig([
             {
               name: 'react-native',
               importNames: ['Image'],
-              message: 'Please import from expo-image instead',
+              message: 'Please import from @/components/ui/Image instead',
+            },
+            {
+              name: 'expo-image',
+              importNames: ['Image'],
+              message: 'Please import from @/components/ui/Image instead',
             },
             {
               name: 'yup',
               message: 'Please import from @/validation/yup instead',
             },
+            {
+              name: 'zod',
+              message: 'Please import from @/validation/zod instead',
+            },
           ],
+          patterns: ['../../*'],
         },
       ],
 

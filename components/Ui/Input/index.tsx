@@ -25,6 +25,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import colors from '@/global/colors';
+import AnimatedText from '../AnimatedText';
 
 type Props<TFieldValues extends FieldValues> = {
   label?: string;
@@ -78,6 +79,11 @@ const Input = <TFieldValues extends FieldValues>({
         <View className="flex-row items-center overflow-hidden rounded-xl border border-neutral-20">
           {type ? (
             <TextInputMask
+              options={options}
+              placeholder={placeholder}
+              placeholderTextColor={colors.neutral[40]}
+              refInput={field.ref}
+              secureTextEntry={passwordHidden}
               style={{
                 width: '100%',
                 padding: 16,
@@ -87,36 +93,31 @@ const Input = <TFieldValues extends FieldValues>({
                 color: colors.neutral[60],
               }}
               textAlignVertical="center"
-              onChangeText={field.onChange}
-              onBlur={field.onBlur}
-              value={field.value}
-              refInput={field.ref}
               type={type}
-              secureTextEntry={passwordHidden}
-              placeholder={placeholder}
-              placeholderTextColor={colors.neutral[40]}
-              options={options}
+              value={field.value}
+              onBlur={field.onBlur}
+              onChangeText={field.onChange}
               {...props}
             />
           ) : (
             <TextInput
+              autoCapitalize={autoCapitalize}
+              className="w-full p-4 text-neutral-60"
+              placeholder={placeholder}
+              placeholderTextColor={colors.neutral[40]}
+              secureTextEntry={passwordHidden}
               style={{
                 fontSize: 16,
                 paddingRight: password ? 44 : undefined,
               }}
-              className="w-full p-4 text-neutral-60"
-              onChangeText={field.onChange}
-              onBlur={field.onBlur}
-              secureTextEntry={passwordHidden}
-              placeholder={placeholder}
-              autoCapitalize={autoCapitalize}
-              placeholderTextColor={colors.neutral[40]}
               value={field.value}
+              onBlur={field.onBlur}
+              onChangeText={field.onChange}
               {...props}
             />
           )}
 
-          {password && field.value && (
+          {password && (
             <TouchableOpacity
               className="absolute right-3 items-center justify-center"
               onPress={() => setPasswordHidden(!passwordHidden)}
@@ -134,11 +135,13 @@ const Input = <TFieldValues extends FieldValues>({
         </View>
 
         {error?.message && (
-          <Animated.View entering={FadeIn} exiting={FadeOut}>
-            <Text className="text-xs text-alert-error-primary">
-              {error.message}
-            </Text>
-          </Animated.View>
+          <AnimatedText
+            className="text-xs text-alert-error-primary"
+            entering={FadeIn}
+            exiting={FadeOut}
+          >
+            {error.message}
+          </AnimatedText>
         )}
       </View>
     </Animated.View>

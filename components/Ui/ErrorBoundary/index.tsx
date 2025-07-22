@@ -71,13 +71,13 @@ export const ErrorBoundary = ({ error, retry }: ErrorBoundaryProps) => {
 const StackTrace = ({ error }: { error: Error }) => {
   return (
     <ScrollView
+      contentContainerStyle={{
+        padding: 12,
+      }}
       style={{
         marginVertical: 8,
         borderColor: 'rgba(255,255,255,0.5)',
         borderWidth: 1,
-      }}
-      contentContainerStyle={{
-        padding: 12,
       }}
     >
       <Text style={[styles.code, { color: 'white' }]}>{error.stack}</Text>

@@ -68,27 +68,27 @@ const Button = ({
   return (
     <AnimatedTouchableOpacity
       activeOpacity={0.7}
+      className="flex-row items-center justify-center gap-2 rounded-full border p-2"
+      disabled={unavailable || disabled || loading}
+      layout={LinearTransition}
       style={{
         backgroundColor: wired ? 'transparent' : color,
         borderColor: wired ? color : 'transparent',
         opacity: unavailable ? 0.5 : 1,
         width,
       }}
-      className="flex-row items-center justify-center gap-2 rounded-full border p-2"
-      disabled={unavailable || disabled || loading}
       onPress={handlePress}
-      layout={LinearTransition}
       {...props}
     >
       {isLoading || loading ? (
-        <ActivityIndicator size={24} color={handleTextColor} />
+        <ActivityIndicator color={handleTextColor} size={24} />
       ) : (
         <>
           {leftIcon && (
             <Icon
+              color={handleTextColor}
               name={leftIcon.name}
               size={leftIcon.size || 20}
-              color={handleTextColor}
             />
           )}
 

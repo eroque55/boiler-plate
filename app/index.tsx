@@ -19,9 +19,9 @@ const Intro = () => {
   useEffect(() => {
     if (finishedAnimation) {
       if (isAuthenticated) {
-        router.replace('/(main)/Home');
+        router.replace('/(main)/home');
       } else {
-        router.replace('/(auth)/Login');
+        router.replace('/(auth)/login');
       }
     }
   }, [finishedAnimation, isAuthenticated, router]);
@@ -29,8 +29,8 @@ const Intro = () => {
   return (
     <View className="flex-1">
       <Animated.View
-        entering={FadeIn.delay(500).duration(800)}
         className="flex-1 items-center justify-center"
+        entering={FadeIn.delay(500).duration(800)}
       >
         <View className="aspect-square w-[80%] bg-black" />
       </Animated.View>

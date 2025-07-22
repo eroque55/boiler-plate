@@ -120,7 +120,7 @@ const AuthProvider = ({ children, isAppReady }: ChildrenProps) => {
 
       await fetchUser();
 
-      router.replace('/(main)/Home');
+      router.replace('/(main)/home');
     } catch (err) {
       await deleteItemAsync('accessToken');
       await deleteItemAsync('refreshToken');

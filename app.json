@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "change-this-name",
+    "name": "Change This Name",
     "slug": "change-this-name",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,9 +20,7 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.mestresdaweb.changethisname",
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
+      "permissions": ["android.permission.RECORD_AUDIO"]
     },
     "web": {
       "favicon": "./assets/expo/favicon.png"
@@ -49,9 +47,8 @@
     "experiments": {
       "typedRoutes": true
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
+    //change this owner
     "owner": "eroque55",
     "scheme": "myapp",
     "runtimeVersion": {
@@ -60,6 +57,7 @@
     "extra": {
       "router": {},
       "eas": {
+        //remove this projectId
         "projectId": "d5773a6f-3979-4e27-98bc-e36a7a5a7fd3"
       }
     }

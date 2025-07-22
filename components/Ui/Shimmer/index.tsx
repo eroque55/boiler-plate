@@ -67,10 +67,10 @@ const Shimmer = ({
       }}
     >
       <View className="absolute inset-0" onLayout={onLayout}>
-        <Animated.View style={animatedStyle} className="flex-1 justify-center">
+        <Animated.View className="flex-1 justify-center" style={animatedStyle}>
           <LinearGradient
-            colors={['transparent', '#f5f5f5', 'transparent']}
             className="h-48 w-[300%] rotate-45"
+            colors={['transparent', '#f5f5f5', 'transparent']}
           />
         </Animated.View>
       </View>

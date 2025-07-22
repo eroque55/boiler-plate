@@ -3,8 +3,8 @@ import { Text, View } from 'react-native';
 import colors from '@/global/colors';
 import useDefaultModal from '@/hooks/useDefaultModal';
 
+import Button from '../Button';
 import ModalBackdrop from '../ModalBackdrop';
-import Button from '../Ui/Button';
 
 export interface DefaultModalProps {
   type?: 'success' | 'error';
@@ -64,19 +64,19 @@ const DefaultModal = () => {
 
         <View className="w-full flex-row-reverse items-center justify-between">
           <Button
-            text={modal.confirmText || 'Voltar'}
-            onPress={handleConfirm}
             color={modal.buttonsColor}
+            text={modal.confirmText || 'Voltar'}
             width="48%"
+            onPress={handleConfirm}
           />
 
           {modal.cancelText && (
             <Button
-              text={modal.cancelText}
               wired
-              onPress={handleCancel}
               color={modal.buttonsColor}
+              text={modal.cancelText}
               width="48%"
+              onPress={handleCancel}
             />
           )}
         </View>

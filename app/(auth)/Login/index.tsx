@@ -6,9 +6,9 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 
-import Button from '@/components/Ui/Button';
-import Checkbox from '@/components/Ui/Checkbox';
-import Input from '@/components/Ui/Input';
+import Button from '@/components/ui/Button';
+import Checkbox from '@/components/ui/Checkbox';
+import Input from '@/components/ui/Input';
 import { useAuth } from '@/hooks/useAuth';
 import { LoginForm, LoginSchema } from '@/validation/Login.validation';
 import { height, width } from 'global/constants';
@@ -31,32 +31,32 @@ const Login = () => {
   return (
     <KeyboardAwareScrollView
       keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
       overScrollMode="never"
+      showsVerticalScrollIndicator={false}
     >
       <View
-        style={{ minHeight: height, width }}
         className="items-center justify-center gap-3 p-6"
+        style={{ minHeight: height, width }}
       >
         <Input
           control={control}
-          name="identifier"
-          placeholder="E-mail"
           keyboardType="email-address"
           label="E-mail"
+          name="identifier"
+          placeholder="E-mail"
         />
 
         <Input
-          control={control}
-          name="password"
           password
-          placeholder="Senha"
+          control={control}
           label="Senha"
+          name="password"
+          placeholder="Senha"
         />
 
         <Animated.View
-          layout={LinearTransition}
           className="w-full flex-row items-center gap-2"
+          layout={LinearTransition}
         >
           <Checkbox
             isChecked={watch('requestRefresh')}

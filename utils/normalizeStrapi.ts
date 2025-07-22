@@ -1,10 +1,11 @@
-export type RecursiveNormalize<O extends object> = O extends Array<infer inner>
-  ? inner extends object
-    ? RecursiveNormalizeStrapiObject<NonNullable<inner>>[]
-    : inner extends Nullable<object>
-    ? RecursiveNormalizeStrapiObject<NonNullable<inner>>[] | null
-    : never
-  : RecursiveNormalizeStrapiObject<O>;
+export type RecursiveNormalize<O extends object> =
+  O extends Array<infer inner>
+    ? inner extends object
+      ? RecursiveNormalizeStrapiObject<NonNullable<inner>>[]
+      : inner extends Nullable<object>
+        ? RecursiveNormalizeStrapiObject<NonNullable<inner>>[] | null
+        : never
+    : RecursiveNormalizeStrapiObject<O>;
 
 export const normalizeStrapi = <T extends object>(
   param: T,
@@ -16,10 +17,7 @@ export const normalizeStrapi = <T extends object>(
     return param as RecursiveNormalize<T>;
   }
   if (Array.isArray(param)) {
-    return param.map(item =>
-      // @ts-expect-error I don't think this is actually a problem. We'll see
-      normalizeStrapi(item),
-    ) as RecursiveNormalize<T>;
+    return param.map(item => normalizeStrapi(item)) as RecursiveNormalize<T>;
   }
   if (isFlattenStrapiParam(param)) {
     return normalizeStrapi(
@@ -67,14 +65,14 @@ type NullableTernary<typeToBeTested, extensionToTest, exprIfTrue, exprIfFalse> =
   typeToBeTested extends extensionToTest
     ? exprIfTrue
     : typeToBeTested extends Nullable<extensionToTest>
-    ? exprIfTrue | null
-    : exprIfFalse;
+      ? exprIfTrue | null
+      : exprIfFalse;
 
 type FlattenAttributes<O extends object> = O extends StrapiAttributesObject[]
   ? (O[number]['attributes'] & Omit<O[number], 'attributes'>)[]
   : O extends StrapiAttributesObject
-  ? Omit<O, 'attributes'> & O['attributes']
-  : never;
+    ? Omit<O, 'attributes'> & O['attributes']
+    : never;
 
 type FlattenStrapiParam =
   | StrapiCollectionWithDataResponse
@@ -116,14 +114,14 @@ type RecursiveNormalizeStrapiObject<O extends object> =
 type FlattenData<O> = O extends { data: Array<infer dataObj> }
   ? Array<NonNullable<dataObj>>
   : O extends { data: infer dataObj }
-  ? /**
-     * For some reason the data object is considered by strapi to
-     * be nullable. I haven't seen any valid reason for this so I've
-     * removed it. But that might change in the future if I find a
-     * valid reason
-     */
-    NonNullable<dataObj>
-  : never;
+    ? /**
+       * For some reason the data object is considered by strapi to
+       * be nullable. I haven't seen any valid reason for this so I've
+       * removed it. But that might change in the future if I find a
+       * valid reason
+       */
+      NonNullable<dataObj>
+    : never;
 
 // I'm also assuming that if data is singular and null it's because of weird typing stuff from strapi's part and just get rid of it. Technically, this could lead to errors, but I can't imagine any situation right now where it would. But still, stay on the lookout
 type NormalizeStrapiCollectionWithData<
@@ -131,15 +129,15 @@ type NormalizeStrapiCollectionWithData<
 > = O extends StrapiCollectionWithData[]
   ? FlattenAttributes<FlattenData<O>>[]
   : O extends StrapiCollectionWithData
-  ? FlattenAttributes<FlattenData<O>>
-  : never;
+    ? FlattenAttributes<FlattenData<O>>
+    : never;
 
 type NormalizeStrapi<O extends FlattenStrapiParam> =
   O extends StrapiCollectionWithDataResponse
     ? NormalizeStrapiCollectionWithData<O>
     : O extends StrapiAttributesObject
-    ? FlattenAttributes<O>
-    : null;
+      ? FlattenAttributes<O>
+      : null;
 
 // I am pretty sure I'm stripping null. Which is good, but it
 // should be more explicit/configurable. Will revisit later

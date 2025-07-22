@@ -1,7 +1,8 @@
 import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
 
-import Button from '@/components/Ui/Button';
+import Button from '@/components/ui/Button';
+import Image from '@/components/ui/Image';
 import colors from '@/global/colors';
 import { useAuth } from '@/hooks/useAuth';
 import useDefaultModal from '@/hooks/useDefaultModal';
@@ -19,13 +20,18 @@ const Home = () => {
       confirmText: 'Sair',
       confirmAction: () => {
         logout();
-        router.replace('/(auth)/Login');
+        router.replace('/(auth)/login');
       },
     });
   };
 
   return (
     <View className="flex-1 justify-center gap-20 p-6">
+      <Image
+        source={{ uri: 'https://placehold.co/800x800' }}
+        style={{ width: 400, height: 400 }}
+      />
+
       <View>
         <Text className="text-base text-neutral-60">Bem Vindo</Text>
 

@@ -29,17 +29,17 @@ const ModalBackdrop = ({ onPress, children }: PropsWithChildren<Props>) => {
 
   return (
     <Animated.View
-      style={{ height: height + top }}
       className="absolute z-40 w-screen bg-[rgba(0,0,0,0.30)]"
       entering={FadeIn}
       exiting={FadeOut}
+      style={{ height: height + top }}
     >
-      <KeyboardAvoidingView className="flex-1" behavior="padding">
+      <KeyboardAvoidingView behavior="padding" className="flex-1">
         <Pressable
           className="flex-1 items-center justify-center"
           onPress={onPress}
         >
-          <Pressable onPress={e => e.stopPropagation()} className="w-[90%]">
+          <Pressable className="w-[90%]" onPress={e => e.stopPropagation()}>
             {children}
           </Pressable>
         </Pressable>
