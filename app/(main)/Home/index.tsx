@@ -3,9 +3,9 @@ import { Text, View } from 'react-native';
 
 import Button from '@/components/ui/Button';
 import Image from '@/components/ui/Image';
+import useAuth from '@/contexts/authContext';
+import useDefaultModal from '@/contexts/defaultModalContext';
 import colors from '@/global/colors';
-import { useAuth } from '@/hooks/useAuth';
-import useDefaultModal from '@/hooks/useDefaultModal';
 
 const Home = () => {
   const { user, logout } = useAuth();

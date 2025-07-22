@@ -3,7 +3,7 @@ import { deleteItemAsync, getItemAsync, setItemAsync } from 'expo-secure-store';
 import * as SplashScreen from 'expo-splash-screen';
 import {
   createContext,
-  ReactNode,
+  PropsWithChildren,
   useContext,
   useEffect,
   useState,
@@ -19,7 +19,7 @@ import {
 import { handleError } from '@/utils/handleError';
 import { LoginForm } from '@/validation/Login.validation';
 
-interface IUserProvider {
+interface ProvideProps {
   user: IUser;
   isAuthenticated: boolean;
   logout: () => Promise<void>;
@@ -28,14 +28,16 @@ interface IUserProvider {
   fetchUser: () => Promise<void>;
 }
 
-interface ChildrenProps {
-  children: ReactNode;
+interface Props {
   isAppReady: boolean;
 }
 
-const AuthContext = createContext({} as IUserProvider);
+const AuthContext = createContext({} as ProvideProps);
 
-const AuthProvider = ({ children, isAppReady }: ChildrenProps) => {
+export const AuthProvider = ({
+  children,
+  isAppReady,
+}: PropsWithChildren<Props>) => {
   const { mutateAsync: loginService } = useLogin();
   const { mutateAsync: refreshService } = useRefreshAccessToken();
   const { refetch } = useFetchUser();
@@ -143,6 +145,6 @@ const AuthProvider = ({ children, isAppReady }: ChildrenProps) => {
   );
 };
 
-export default AuthProvider;
+const useAuth = () => useContext(AuthContext);
 
-export const useAuth = () => useContext(AuthContext);
+export default useAuth;

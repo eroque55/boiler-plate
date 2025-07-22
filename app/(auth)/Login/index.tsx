@@ -9,7 +9,7 @@ import Animated, { LinearTransition } from 'react-native-reanimated';
 import Button from '@/components/ui/Button';
 import Checkbox from '@/components/ui/Checkbox';
 import Input from '@/components/ui/Input';
-import { useAuth } from '@/hooks/useAuth';
+import useAuth from '@/contexts/authContext';
 import { LoginForm, LoginSchema } from '@/validation/Login.validation';
 import { height, width } from 'global/constants';
 

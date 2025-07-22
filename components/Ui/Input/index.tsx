@@ -25,6 +25,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import colors from '@/global/colors';
+
 import AnimatedText from '../AnimatedText';
 
 type Props<TFieldValues extends FieldValues> = {

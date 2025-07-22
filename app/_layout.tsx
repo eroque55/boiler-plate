@@ -17,9 +17,9 @@ import {
 import Toast, { ErrorToast } from 'react-native-toast-message';
 
 import DefaultModal from '@/components/ui/DefaultModal';
+import { AuthProvider } from '@/contexts/authContext';
 import { DefaultModalProvider } from '@/contexts/defaultModalContext';
 import colors from '@/global/colors';
-import AuthProvider from '@/hooks/useAuth';
 import useUpdate from '@/hooks/useUpdate';
 import { handleError } from '@/utils/handleError';
 

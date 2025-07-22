@@ -1,14 +1,14 @@
-import { createContext, PropsWithChildren, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
 import { DefaultModalProps } from '@/components/ui/DefaultModal';
 
-interface Props {
+interface ProviderProps {
   modal: DefaultModalProps | null;
   openModal: (props: DefaultModalProps) => void;
   closeModal: () => void;
 }
 
-export const DefaultModalContext = createContext({} as Props);
+const DefaultModalContext = createContext({} as ProviderProps);
 
 export const DefaultModalProvider = ({ children }: PropsWithChildren) => {
   const [modal, setModal] = useState<DefaultModalProps | null>(null);
@@ -33,3 +33,7 @@ export const DefaultModalProvider = ({ children }: PropsWithChildren) => {
     </DefaultModalContext.Provider>
   );
 };
+
+const useDefaultModal = () => useContext(DefaultModalContext);
+
+export default useDefaultModal;

@@ -1,6 +1,6 @@
 import { ViewStyle } from 'react-native';
 
-import * as Assets from '@/assets/index';
+import * as Assets from '@/assets/icons';
 import colors from '@/global/colors';
 
 export type IconT = keyof typeof Assets;

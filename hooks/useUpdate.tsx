@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
 import * as Updates from 'expo-updates';
+import { useEffect, useState } from 'react';
+
 import { handleSuccess } from '@/utils/handleError';
 
 const useUpdate = () => {

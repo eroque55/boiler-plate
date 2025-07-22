@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
-import { useAuth } from '@/hooks/useAuth';
+import useAuth from '@/contexts/authContext';
 
 const Intro = () => {
   const { isAuthenticated } = useAuth();
