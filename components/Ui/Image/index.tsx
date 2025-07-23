@@ -1,14 +1,31 @@
 // eslint-disable-next-line no-restricted-imports
 import { Image as ExpoImage, ImageProps } from 'expo-image';
+import { useState } from 'react';
+import { View } from 'react-native';
 
-import colors from '@/global/colors';
+import Shimmer from '../Shimmer';
 
-const Image = ({ style, ...props }: ImageProps) => {
+type Props = {
+  withoutBackground?: boolean;
+} & ImageProps;
+
+const Image = ({ style, withoutBackground = false, ...props }: Props) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
-    <ExpoImage
-      style={[{ backgroundColor: colors.neutral.placeholder }, style]}
-      {...props}
-    />
+    <View className="overflow-hidden" style={style}>
+      <ExpoImage
+        style={style}
+        onDisplay={() => setIsLoading(false)}
+        {...props}
+      />
+
+      {isLoading && !withoutBackground && (
+        <View className="absolute inset-0">
+          <Shimmer />
+        </View>
+      )}
+    </View>
   );
 };
 
