@@ -11,9 +11,9 @@ export interface DefaultModalProps {
   title?: string;
   message?: string;
   confirmText?: string;
-  confirmAction?: () => void;
+  confirmAction?: () => void | Promise<void>;
   cancelText?: string;
-  cancelAction?: () => void;
+  cancelAction?: () => void | Promise<void>;
   successMessage?: string;
   buttonsColor?: string;
 }

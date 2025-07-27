@@ -15,7 +15,7 @@ const Image = ({ style, withoutBackground = false, ...props }: Props) => {
   return (
     <View className="overflow-hidden" style={style}>
       <ExpoImage
-        style={style}
+        style={{ flex: 1 }}
         onDisplay={() => setIsLoading(false)}
         {...props}
       />

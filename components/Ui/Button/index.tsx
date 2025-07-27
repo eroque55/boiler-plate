@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   TouchableOpacityProps,
+  View,
 } from 'react-native';
 import Animated, {
   AnimatedProps,
@@ -80,28 +81,29 @@ const Button = ({
       onPress={handlePress}
       {...props}
     >
-      {isLoading || loading ? (
-        <ActivityIndicator color={handleTextColor} size={24} />
-      ) : (
-        <>
-          {leftIcon && (
-            <Icon
-              color={handleTextColor}
-              name={leftIcon.name}
-              size={leftIcon.size || 20}
-            />
-          )}
-
-          <Text
-            className="text-base"
-            style={{
-              color: handleTextColor,
-            }}
-          >
-            {text}
-          </Text>
-        </>
+      {leftIcon && (
+        <Icon
+          color={handleTextColor}
+          name={leftIcon.name}
+          size={leftIcon.size || 20}
+        />
       )}
+
+      <Text
+        className="text-base"
+        style={{
+          color: handleTextColor,
+        }}
+      >
+        {text}
+      </Text>
+
+      {isLoading ||
+        (loading && (
+          <View className="absolute -inset-1 items-center justify-center bg-[rgba(0,0,0,0.2)]">
+            <ActivityIndicator color={handleTextColor} size={24} />
+          </View>
+        ))}
     </AnimatedTouchableOpacity>
   );
 };
