@@ -10,13 +10,14 @@ import {
 } from 'react';
 
 import { IUser } from '@/interfaces/user';
-import api from '@/services/api.service';
+import api from '@/services/api';
 import {
   useFetchUser,
   useLogin,
   useRefreshAccessToken,
-} from '@/services/login.service';
+} from '@/services/login';
 import { handleError } from '@/utils/handleError';
+import queryClient from '@/utils/queryClient';
 import { LoginForm } from '@/validation/Login.validation';
 
 interface ProvideProps {
@@ -134,6 +135,7 @@ export const AuthProvider = ({
     setUser({} as IUser);
     await deleteItemAsync('accessToken');
     await deleteItemAsync('refreshToken');
+    queryClient.removeQueries();
   };
 
   return (

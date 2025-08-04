@@ -1,6 +1,6 @@
 import '@/global.css';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { setDefaultOptions } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useFonts } from 'expo-font';
@@ -21,7 +21,7 @@ import { AuthProvider } from '@/contexts/authContext';
 import { DefaultModalProvider } from '@/contexts/defaultModalContext';
 import colors from '@/global/colors';
 import useUpdate from '@/hooks/useUpdate';
-import { handleError } from '@/utils/handleError';
+import queryClient from '@/utils/queryClient';
 
 export { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 
@@ -30,19 +30,6 @@ const toastConfig = {
 };
 
 setDefaultOptions({ locale: ptBR });
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 20000,
-      retry: false,
-      initialDataUpdatedAt: 0,
-    },
-    mutations: {
-      onError: err => handleError(err),
-    },
-  },
-});
 
 SplashScreen.preventAutoHideAsync();
 

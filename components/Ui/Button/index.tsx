@@ -15,7 +15,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import colors from '@/global/colors';
-import { useDisableDelay } from '@/hooks/useDebounce';
+import useDisableDelay from '@/hooks/useDisableDelay';
 
 import Icon, { IconProps } from '../Icon';
 
