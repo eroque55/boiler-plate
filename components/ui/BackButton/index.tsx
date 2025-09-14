@@ -1,9 +1,5 @@
 import { useRouter } from 'expo-router';
-import {
-  GestureResponderEvent,
-  Keyboard,
-  TouchableOpacityProps,
-} from 'react-native';
+import { GestureResponderEvent, TouchableOpacityProps } from 'react-native';
 
 import Icon from '../Icon';
 import Pressable from '../Pressable';
@@ -12,8 +8,6 @@ const BackButton = ({ onPress, ...props }: TouchableOpacityProps) => {
   const router = useRouter();
 
   const handlePress = (e: GestureResponderEvent) => {
-    Keyboard.dismiss();
-
     if (onPress) {
       onPress(e);
       return;

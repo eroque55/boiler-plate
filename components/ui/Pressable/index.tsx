@@ -1,14 +1,29 @@
 /* eslint-disable no-restricted-imports */
 import { PropsWithChildren } from 'react';
-import { PressableProps, Pressable as RNPressable, View } from 'react-native';
+import {
+  GestureResponderEvent,
+  Keyboard,
+  PressableProps,
+  Pressable as RNPressable,
+  View,
+} from 'react-native';
 import Animated from 'react-native-reanimated';
 
 const Pressable = ({
   children,
+  onPress,
   ...props
 }: PropsWithChildren<PressableProps>) => {
+  const handlePress = (event: GestureResponderEvent) => {
+    Keyboard.dismiss();
+
+    if (onPress) {
+      onPress(event);
+    }
+  };
+
   return (
-    <RNPressable {...props}>
+    <RNPressable onPress={handlePress} {...props}>
       {({ pressed }) => (
         <>
           {children}

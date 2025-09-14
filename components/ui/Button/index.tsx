@@ -2,7 +2,6 @@ import { PropsWithChildren } from 'react';
 import {
   DimensionValue,
   GestureResponderEvent,
-  Keyboard,
   PressableProps,
   Text,
 } from 'react-native';
@@ -57,8 +56,6 @@ const Button = ({
   };
 
   const handlePress = async (e: GestureResponderEvent) => {
-    Keyboard.dismiss();
-
     if (!onPress) {
       return;
     }
