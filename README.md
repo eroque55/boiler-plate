@@ -24,7 +24,7 @@ This is an Expo project template with a lot of batteries included to help you ge
 
 1. Change the name in `app.json` and `package.json` (search for `changethisname`).
 
-2. Create the images for the app icon and splash screen in the `assets/expo` folder. You can use [this tool](www.figma.com/community/file/1466490409418563617/expo-app-icon-splash-v2-community) to generate the icons.
+2. Create the images for the app icon and splash screen in the `assets/expo` folder. You can use [this tool](https://www.figma.com/community/file/1466490409418563617/expo-app-icon-splash-v2-community) to generate the icons.
 
 ## Useful commands
 
