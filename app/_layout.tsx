@@ -1,0 +1,95 @@
+import '@/global.css';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { setDefaultOptions } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { useFonts } from 'expo-font';
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
+import Toast, { ErrorToast, ToastConfig } from 'react-native-toast-message';
+
+import DefaultModal from '@/components/ui/DefaultModal';
+import { AuthProvider } from '@/contexts/useAuth';
+import { DefaultModalProvider } from '@/contexts/useDefaultModalContext';
+import { DropdownProvider } from '@/contexts/useDropdownContext';
+import colors from '@/global/colors';
+import useUpdate from '@/hooks/useUpdate';
+import { handleError } from '@/utils/handleError';
+
+export { ErrorBoundary } from '@/components/ui/ErrorBoundary';
+
+setDefaultOptions({ locale: ptBR });
+
+const toastConfig: ToastConfig = {
+  error: props => <ErrorToast {...props} text1NumberOfLines={2} />,
+};
+
+SplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: 20000,
+      retry: false,
+      initialDataUpdatedAt: 0,
+    },
+    mutations: {
+      onError: handleError,
+    },
+  },
+});
+
+const RootLayout = () => {
+  const isLoading = useUpdate();
+  const { top, bottom, left, right } = useSafeAreaInsets();
+  const [fontsLoaded] = useFonts({});
+
+  const isAppReady = !isLoading && fontsLoaded;
+
+  if (!isAppReady) {
+    return null;
+  }
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaProvider>
+          <AuthProvider isAppReady={isAppReady}>
+            <DefaultModalProvider>
+              <DropdownProvider>
+                <StatusBar style="auto" />
+
+                <Stack
+                  screenOptions={{
+                    animation: 'fade',
+                    animationDuration: 300,
+                    headerShown: false,
+                    contentStyle: {
+                      backgroundColor: colors.neutral.white,
+                      paddingTop: top,
+                      paddingBottom: bottom,
+                      paddingLeft: left,
+                      paddingRight: right,
+                    },
+                  }}
+                />
+
+                <DefaultModal />
+
+                <Toast config={toastConfig} />
+              </DropdownProvider>
+            </DefaultModalProvider>
+          </AuthProvider>
+        </SafeAreaProvider>
+      </QueryClientProvider>
+    </GestureHandlerRootView>
+  );
+};
+
+export default RootLayout;

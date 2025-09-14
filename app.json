@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "changethisname",
+    "slug": "changethisname",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/expo/icon.png",
+    "scheme": "myapp",
+    "owner": "mestresdaweb",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "ios": {
+      "supportsTablet": false
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/expo/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.mestresdaweb.changethisname"
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/expo/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/expo/splash-icon-light.png",
+          "backgroundColor": "#FFFFFF",
+          "dark": {
+            "image": "./assets/expo/splash-icon-dark.png",
+            "backgroundColor": "#1B1B1B"
+          },
+          "imageWidth": 200
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "nativewind-env.d.ts"
+  ],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["*"]
+    },
+    "plugins": [
+      {
+        "name": "ts-plugin-sort-import-suggestions",
+        "moveUpPatterns": [
+          "./",
+          "@/",
+          "expo-image",
+          "react-native-gesture-handler",
+          "react-native-reanimated"
+        ],
+        "moveDownPatterns": ["node_modules", "dist"]
+      }
+    ]
+  }
+}
