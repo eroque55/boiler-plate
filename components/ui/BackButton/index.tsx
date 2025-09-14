@@ -2,11 +2,11 @@ import { useRouter } from 'expo-router';
 import {
   GestureResponderEvent,
   Keyboard,
-  TouchableOpacity,
   TouchableOpacityProps,
 } from 'react-native';
 
 import Icon from '../Icon';
+import Pressable from '../Pressable';
 
 const BackButton = ({ onPress, ...props }: TouchableOpacityProps) => {
   const router = useRouter();
@@ -25,13 +25,13 @@ const BackButton = ({ onPress, ...props }: TouchableOpacityProps) => {
   };
 
   return (
-    <TouchableOpacity
-      className="h-9 w-9 items-center justify-center"
+    <Pressable
+      className="h-9 w-9 items-center justify-center overflow-hidden rounded-full"
       onPress={handlePress}
       {...props}
     >
-      <Icon name="LeftArrowIcon" size={20} />
-    </TouchableOpacity>
+      <Icon name="ChevronIcon" rotate={90} size={20} />
+    </Pressable>
   );
 };
 
