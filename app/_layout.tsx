@@ -8,10 +8,8 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast, { ErrorToast, ToastConfig } from 'react-native-toast-message';
 
 import DefaultModal from '@/components/ui/DefaultModal';
@@ -19,6 +17,7 @@ import useAuth, { AuthProvider } from '@/contexts/useAuth';
 import { DefaultModalProvider } from '@/contexts/useDefaultModalContext';
 import { DropdownProvider } from '@/contexts/useDropdownContext';
 import colors from '@/global/colors';
+import useDimensions from '@/hooks/useDimensions';
 import useUpdate from '@/hooks/useUpdate';
 import { handleError } from '@/utils/handleError';
 
@@ -47,7 +46,7 @@ const queryClient = new QueryClient({
 
 const ProtectedStack = () => {
   const { user } = useAuth();
-  const insets = useSafeAreaInsets();
+  const { insets } = useDimensions();
 
   return (
     <Stack
@@ -86,23 +85,25 @@ const RootLayout = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <QueryClientProvider client={queryClient}>
-        <SafeAreaProvider>
-          <AuthProvider isAppReady={isAppReady}>
-            <DefaultModalProvider>
-              <DropdownProvider>
-                <StatusBar style="auto" />
+      <KeyboardProvider>
+        <QueryClientProvider client={queryClient}>
+          <SafeAreaProvider>
+            <AuthProvider isAppReady={isAppReady}>
+              <DefaultModalProvider>
+                <DropdownProvider>
+                  <StatusBar style="auto" />
 
-                <ProtectedStack />
+                  <ProtectedStack />
 
-                <DefaultModal />
+                  <DefaultModal />
 
-                <Toast config={toastConfig} />
-              </DropdownProvider>
-            </DefaultModalProvider>
-          </AuthProvider>
-        </SafeAreaProvider>
-      </QueryClientProvider>
+                  <Toast config={toastConfig} />
+                </DropdownProvider>
+              </DefaultModalProvider>
+            </AuthProvider>
+          </SafeAreaProvider>
+        </QueryClientProvider>
+      </KeyboardProvider>
     </GestureHandlerRootView>
   );
 };

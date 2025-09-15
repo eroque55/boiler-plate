@@ -2,11 +2,11 @@
 import { PropsWithChildren } from 'react';
 import {
   GestureResponderEvent,
-  Keyboard,
   PressableProps,
   Pressable as RNPressable,
   View,
 } from 'react-native';
+import { KeyboardController } from 'react-native-keyboard-controller';
 import Animated from 'react-native-reanimated';
 
 const Pressable = ({
@@ -15,7 +15,7 @@ const Pressable = ({
   ...props
 }: PropsWithChildren<PressableProps>) => {
   const handlePress = (event: GestureResponderEvent) => {
-    Keyboard.dismiss();
+    KeyboardController.dismiss();
 
     if (onPress) {
       onPress(event);
