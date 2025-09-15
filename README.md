@@ -34,10 +34,10 @@ This is an Expo project template with a lot of batteries included to help you ge
 
 ## Building a apk
 
-1. Install the Expo CLI globally if you haven't already:
+1. Install the EAS CLI globally if you haven't already:
 
    ```bash
-   npm install -g expo-cli
+   npm install -g eas-cli
    ```
 
 2. Login to your Expo account:
