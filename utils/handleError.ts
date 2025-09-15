@@ -71,9 +71,9 @@ export const handleSuccess = (message: string): void => {
   });
 };
 
-interface ApiErrorResponse {
+type ApiErrorResponse = {
   error?: {
     message?: string;
   };
   message?: string;
-}
+};

@@ -15,7 +15,7 @@ import {
 import Toast, { ErrorToast, ToastConfig } from 'react-native-toast-message';
 
 import DefaultModal from '@/components/ui/DefaultModal';
-import { AuthProvider } from '@/contexts/useAuth';
+import useAuth, { AuthProvider } from '@/contexts/useAuth';
 import { DefaultModalProvider } from '@/contexts/useDefaultModalContext';
 import { DropdownProvider } from '@/contexts/useDropdownContext';
 import colors from '@/global/colors';
@@ -45,9 +45,37 @@ const queryClient = new QueryClient({
   },
 });
 
+const ProtectedStack = () => {
+  const { user } = useAuth();
+  const insets = useSafeAreaInsets();
+
+  return (
+    <Stack
+      screenOptions={{
+        animation: 'fade',
+        headerShown: false,
+        contentStyle: {
+          backgroundColor: colors.neutral.background,
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        },
+      }}
+    >
+      <Stack.Protected guard={!user}>
+        <Stack.Screen name="(auth)" />
+      </Stack.Protected>
+
+      <Stack.Protected guard={!!user}>
+        <Stack.Screen name="(main)" />
+      </Stack.Protected>
+    </Stack>
+  );
+};
+
 const RootLayout = () => {
   const isLoading = useUpdate();
-  const { top, bottom, left, right } = useSafeAreaInsets();
   const [fontsLoaded] = useFonts({});
 
   const isAppReady = !isLoading && fontsLoaded;
@@ -65,20 +93,7 @@ const RootLayout = () => {
               <DropdownProvider>
                 <StatusBar style="auto" />
 
-                <Stack
-                  screenOptions={{
-                    animation: 'fade',
-                    animationDuration: 300,
-                    headerShown: false,
-                    contentStyle: {
-                      backgroundColor: colors.neutral.white,
-                      paddingTop: top,
-                      paddingBottom: bottom,
-                      paddingLeft: left,
-                      paddingRight: right,
-                    },
-                  }}
-                />
+                <ProtectedStack />
 
                 <DefaultModal />
 

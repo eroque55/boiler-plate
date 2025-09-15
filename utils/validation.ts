@@ -134,9 +134,9 @@ export const validateCnpj = (cnpj: string) => {
   return true;
 };
 
-export const validateCpfOrCnpj = async (value: string) => {
-  const isValidCpf = await validateCpf(value);
-  const isValidCnpj = await validateCnpj(value);
+export const validateCpfOrCnpj = (value: string) => {
+  const isValidCpf = validateCpf(value);
+  const isValidCnpj = validateCnpj(value);
 
   if (isValidCpf || isValidCnpj) {
     return true;
