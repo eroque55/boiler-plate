@@ -7,16 +7,20 @@ This is an Expo project template with a lot of batteries included to help you ge
 1. Install dependencies:
 
    ```bash
-   npm install
-   # or
    yarn install
    ```
 
-2. Start the development server:
+2. Create your development build:
 
    ```bash
-   npm run start
+   yarn android
    # or
+   yarn ios
+   ```
+
+3. Start the development server:
+
+   ```bash
    yarn start
    ```
 
