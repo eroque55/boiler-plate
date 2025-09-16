@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   FieldValues,
   useController,
@@ -43,9 +43,21 @@ const Input = <TFieldValues extends FieldValues>({
   name,
   autoCapitalize = 'none',
   minHeight,
+  multiline,
+  maxLength,
   ...props
 }: Props<TFieldValues>) => {
   const [passwordHidden, setPasswordHidden] = useState(isPassword);
+
+  const length = useMemo(() => {
+    if (maxLength) {
+      return maxLength;
+    }
+    if (multiline || minHeight) {
+      return 250;
+    }
+    return 100;
+  }, [multiline, maxLength]);
 
   const {
     field,
@@ -69,7 +81,8 @@ const Input = <TFieldValues extends FieldValues>({
               ref={field.ref}
               autoCapitalize={autoCapitalize}
               editable={!isBlocked}
-              multiline={!!minHeight}
+              multiline={!!minHeight || multiline}
+              maxLength={length}
               options={options}
               placeholder={placeholder}
               placeholderTextColor={colors.neutral[40]}
@@ -97,7 +110,8 @@ const Input = <TFieldValues extends FieldValues>({
               autoCapitalize={autoCapitalize}
               className="h-full min-h-11 flex-grow p-2 text-lg text-neutral-60"
               editable={!isBlocked}
-              multiline={!!minHeight}
+              multiline={!!minHeight || multiline}
+              maxLength={length}
               placeholder={placeholder}
               placeholderTextColor={colors.neutral[40]}
               secureTextEntry={passwordHidden}

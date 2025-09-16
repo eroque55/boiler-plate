@@ -1,33 +1,32 @@
-import * as z from 'zod/v3';
+// eslint-disable-next-line no-restricted-imports
+import z from 'zod';
 
-const customErrorMap: z.ZodErrorMap = issue => {
-  if (issue.code === z.ZodIssueCode.invalid_type) {
-    if (issue.expected === 'string') {
-      return { message: 'Campo obrigatório' };
-    }
-  }
+const pt = z.locales.pt();
 
-  if (issue.code === z.ZodIssueCode.too_small) {
-    if (issue.minimum === 1) {
-      return { message: 'Campo obrigatório' };
+z.config({
+  ...pt,
+  customError: issue => {
+    if (!issue.input) {
+      return 'Campo obrigatório';
     }
 
-    return { message: `Mínimo de ${issue.minimum} caracteres` };
-  }
-
-  if (issue.code === z.ZodIssueCode.too_big) {
-    return { message: `Máximo de ${issue.maximum} caracteres` };
-  }
-
-  if (issue.code === z.ZodIssueCode.invalid_string) {
-    if (issue.validation === 'email') {
-      return { message: 'Email Inválido' };
+    if (issue.code === 'too_small') {
+      if (issue.minimum === 1) {
+        return 'Campo obrigatório';
+      }
+      return `Mínimo de ${issue.minimum} caracteres`;
     }
-  }
 
-  return { message: 'Campo inválido' };
-};
+    if (issue.code === 'too_big') {
+      return `Máximo de ${issue.maximum} caracteres`;
+    }
 
-z.setErrorMap(customErrorMap);
+    if (issue.format === 'email' && issue.code === 'invalid_format') {
+      return 'E-mail inválido';
+    }
+
+    return 'Campo inválido';
+  },
+});
 
 export default z;
