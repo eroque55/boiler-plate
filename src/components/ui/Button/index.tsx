@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { AnimatedProps, LinearTransition } from 'react-native-reanimated';
 
-import colors from '@/global/colors';
+import { colors } from '@/global/colors';
 import { useDisableDelay } from '@/hooks/useDisableDelay';
 
 import Icon, { IconProps } from '../Icon';

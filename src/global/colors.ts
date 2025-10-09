@@ -1,6 +1,6 @@
 import { black, transparent, white } from 'tailwindcss/colors';
 
-const colors = {
+export const colors = {
   primary: {
     100: '#1654A2',
     80: '#4576B5',
@@ -25,5 +25,3 @@ const colors = {
   },
   transparent,
 } as const;
-
-export default colors;

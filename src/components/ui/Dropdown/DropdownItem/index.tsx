@@ -1,6 +1,6 @@
 import { PressableProps, Text } from 'react-native';
 
-import colors from '@/global/colors';
+import { colors } from '@/global/colors';
 
 import Pressable from '../../Pressable';
 

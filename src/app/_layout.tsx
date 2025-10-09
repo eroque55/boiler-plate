@@ -1,4 +1,4 @@
-import '@/global.css';
+import '@/global/global.css';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { setDefaultOptions } from 'date-fns';
@@ -16,7 +16,7 @@ import DefaultModal from '@/components/ui/DefaultModal';
 import useAuth, { AuthProvider } from '@/contexts/useAuth';
 import { DefaultModalProvider } from '@/contexts/useDefaultModalContext';
 import { DropdownProvider } from '@/contexts/useDropdownContext';
-import colors from '@/global/colors';
+import { colors } from '@/global/colors';
 import useDimensions from '@/hooks/useDimensions';
 import useUpdate from '@/hooks/useUpdate';
 import { handleError } from '@/utils/handleError';

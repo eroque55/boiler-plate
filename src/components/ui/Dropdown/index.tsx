@@ -12,7 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import useDropdown from '@/contexts/useDropdownContext';
-import colors from '@/global/colors';
+import { colors } from '@/global/colors';
 import { matchText } from '@/utils/format';
 
 import Icon from '../Icon';

@@ -5,7 +5,7 @@ import {
 } from 'react-hook-form';
 
 import Icon from '@/components/ui/Icon';
-import colors from '@/global/colors';
+import { colors } from '@/global/colors';
 
 import Pressable from '../Pressable';
 

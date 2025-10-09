@@ -16,7 +16,7 @@ import Animated, {
   LinearTransition,
 } from 'react-native-reanimated';
 
-import colors from '@/global/colors';
+import { colors } from '@/global/colors';
 
 import Icon from '../Icon';
 import Pressable from '../Pressable';
@@ -81,8 +81,8 @@ const Input = <TFieldValues extends FieldValues>({
               ref={field.ref}
               autoCapitalize={autoCapitalize}
               editable={!isBlocked}
-              multiline={!!minHeight || multiline}
               maxLength={length}
+              multiline={!!minHeight || multiline}
               options={options}
               placeholder={placeholder}
               placeholderTextColor={colors.neutral[40]}
@@ -110,8 +110,8 @@ const Input = <TFieldValues extends FieldValues>({
               autoCapitalize={autoCapitalize}
               className="h-full min-h-11 flex-grow p-2 text-lg text-neutral-60"
               editable={!isBlocked}
-              multiline={!!minHeight || multiline}
               maxLength={length}
+              multiline={!!minHeight || multiline}
               placeholder={placeholder}
               placeholderTextColor={colors.neutral[40]}
               secureTextEntry={passwordHidden}

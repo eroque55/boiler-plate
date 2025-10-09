@@ -1,7 +1,7 @@
 import { ActivityIndicator } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
-import colors from '@/global/colors';
+import { colors } from '@/global/colors';
 
 const ButtonActivityIndicator = () => {
   return (

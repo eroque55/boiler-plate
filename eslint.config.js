@@ -1,4 +1,5 @@
 const js = require('@eslint/js');
+const { defineConfig, globalIgnores } = require('eslint/config');
 const expoConfig = require('eslint-config-expo/flat');
 const eslintConfigPrettier = require('eslint-config-prettier/flat');
 const importPlugin = require('eslint-plugin-import');
@@ -6,7 +7,6 @@ const preferArrowFunctions = require('eslint-plugin-prefer-arrow-functions');
 const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
 const pluginReact = require('eslint-plugin-react');
 const pluginReactNative = require('eslint-plugin-react-native');
-const { defineConfig, globalIgnores } = require('eslint/config');
 const { configs } = require('typescript-eslint');
 
 module.exports = defineConfig([
@@ -18,7 +18,6 @@ module.exports = defineConfig([
     'ios/*',
     '.expo/*',
     'web-build/*',
-    '*.config.*',
   ]),
   configs.recommended,
   configs.stylistic,
@@ -234,6 +233,13 @@ module.exports = defineConfig([
           ],
         },
       ],
+    },
+  },
+  {
+    files: ['**/*.config.*'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-var-requires': 'off',
     },
   },
 ]);

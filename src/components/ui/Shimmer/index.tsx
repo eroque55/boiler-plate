@@ -11,7 +11,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import colors from '@/global/colors';
+import { colors } from '@/global/colors';
 
 type Props = {
   width?: number;

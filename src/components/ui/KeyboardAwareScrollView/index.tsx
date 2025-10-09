@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-imports */
 import { PropsWithChildren } from 'react';
 import {
   KeyboardAwareScrollView as KASV,

@@ -1,5 +1,5 @@
-import colors from './global/colors.ts';
-import fontFamily from './global/fontFamily.ts';
+import { colors } from './src/global/colors';
+import { fontFamily } from './src/global/fontFamily';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

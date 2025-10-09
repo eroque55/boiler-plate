@@ -1,4 +1,4 @@
-export interface IViaCepResponse {
+export type IViaCepResponse = {
   cep: string;
   logradouro: string;
   complemento: string;
@@ -12,4 +12,4 @@ export interface IViaCepResponse {
   gia: string;
   ddd: string;
   siafi: string;
-}
+};
