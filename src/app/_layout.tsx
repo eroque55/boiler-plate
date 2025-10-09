@@ -12,13 +12,15 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast, { ErrorToast, ToastConfig } from 'react-native-toast-message';
 
-import DefaultModal from '@/components/ui/DefaultModal';
-import useAuth, { AuthProvider } from '@/contexts/useAuth';
-import { DefaultModalProvider } from '@/contexts/useDefaultModalContext';
-import { DropdownProvider } from '@/contexts/useDropdownContext';
+import { DefaultModal } from '@/components/ui';
+import {
+  AuthProvider,
+  DefaultModalProvider,
+  DropdownProvider,
+  useAuth,
+} from '@/contexts';
 import { colors } from '@/global/colors';
-import useDimensions from '@/hooks/useDimensions';
-import useUpdate from '@/hooks/useUpdate';
+import { useDimensions, useUpdate } from '@/hooks/common';
 import { handleError } from '@/utils/handleError';
 
 export { ErrorBoundary } from '@/components/ui/ErrorBoundary';

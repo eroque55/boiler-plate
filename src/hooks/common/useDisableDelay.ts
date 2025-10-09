@@ -10,6 +10,7 @@ export const useDisableDelay = (delay = 1000) => {
       }
 
       setIsLoading(true);
+
       try {
         await func();
       } finally {

@@ -11,7 +11,7 @@ import Animated, {
   LinearTransition,
 } from 'react-native-reanimated';
 
-import useDropdown from '@/contexts/useDropdownContext';
+import { useDropdown } from '@/contexts';
 import { colors } from '@/global/colors';
 import { matchText } from '@/utils/format';
 

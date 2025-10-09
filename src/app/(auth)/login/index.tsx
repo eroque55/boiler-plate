@@ -5,11 +5,8 @@ import { useForm } from 'react-hook-form';
 import { Text, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 
-import Button from '@/components/ui/Button';
-import Checkbox from '@/components/ui/Checkbox';
-import Input from '@/components/ui/Input';
-import Pressable from '@/components/ui/Pressable';
-import useAuth from '@/contexts/useAuth';
+import { Button, Checkbox, Input, Pressable } from '@/components/ui';
+import { useAuth } from '@/contexts';
 import { LoginForm, LoginSchema } from '@/validation/login.validation';
 
 const Login = () => {

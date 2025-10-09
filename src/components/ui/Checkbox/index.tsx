@@ -4,9 +4,9 @@ import {
   UseControllerProps,
 } from 'react-hook-form';
 
-import Icon from '@/components/ui/Icon';
 import { colors } from '@/global/colors';
 
+import Icon from '../Icon';
 import Pressable from '../Pressable';
 
 type Props<TFieldValues extends FieldValues> = UseControllerProps<TFieldValues>;

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useWindowDimensions } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const useDimensions = () => {
+export const useDimensions = () => {
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
 
@@ -22,5 +22,3 @@ const useDimensions = () => {
     insets,
   };
 };
-
-export default useDimensions;

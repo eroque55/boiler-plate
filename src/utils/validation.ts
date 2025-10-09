@@ -1,5 +1,6 @@
-import axios from 'axios';
 import { isValid, parse } from 'date-fns';
+
+import { zipCodeService } from '@/services/api/cep';
 
 export const validateDate = (
   date: string,
@@ -146,11 +147,9 @@ export const validateCpfOrCnpj = (value: string) => {
 
 export const validateZipCode = async (zipCode: string) => {
   try {
-    const response = await axios.get(
-      `https://viacep.com.br/ws/${zipCode}/json/`,
-    );
+    const response = await zipCodeService.getAddress(zipCode);
 
-    if (response.data.erro) {
+    if (!response) {
       return false;
     }
 

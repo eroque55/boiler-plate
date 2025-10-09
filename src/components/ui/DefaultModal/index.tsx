@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native';
 
-import useDefaultModal from '@/contexts/useDefaultModalContext';
+import { useDefaultModal } from '@/contexts';
 
 import ModalBackdrop from '../ModalBackdrop';
 

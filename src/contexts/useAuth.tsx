@@ -10,17 +10,17 @@ import {
   useState,
 } from 'react';
 
-import { IUser } from '@/interfaces/user';
-import api from '@/services/api';
 import {
   useFetchUser,
   useLogin,
   useRefreshAccessToken,
-} from '@/services/login';
+} from '@/hooks/api/useAuthApi';
+import { http } from '@/services/http';
+import { TUser } from '@/types/user';
 import { LoginForm } from '@/validation/login.validation';
 
 type ContextValues = {
-  user: IUser | null;
+  user: TUser | null;
   logout: (isDelete?: boolean) => Promise<void>;
   login: (user: LoginForm) => Promise<void>;
   loading: boolean;
@@ -40,7 +40,7 @@ export const AuthProvider = ({
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<TUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   const { mutateAsync: loginService } = useLogin();
@@ -123,7 +123,7 @@ export const AuthProvider = ({
     router.replace('/(auth)/login');
   }, [isAppReady, loading]);
 
-  api.interceptors.response.use(
+  http.interceptors.response.use(
     response => response,
     async error => {
       const originalRequest = error.config;
@@ -142,7 +142,7 @@ export const AuthProvider = ({
         originalRequest.retry = true;
         const accessToken = await refreshAccessToken();
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        return api(originalRequest);
+        return http(originalRequest);
       }
       return Promise.reject(error);
     },
@@ -163,6 +163,4 @@ export const AuthProvider = ({
   );
 };
 
-const useAuth = () => useContext(AuthContext);
-
-export default useAuth;
+export const useAuth = () => useContext(AuthContext);

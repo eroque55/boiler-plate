@@ -1,4 +1,4 @@
-export type IViaCepResponse = {
+export type TViaCEPResponse = {
   cep: string;
   logradouro: string;
   complemento: string;

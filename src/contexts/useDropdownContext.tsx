@@ -34,6 +34,4 @@ export const DropdownProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-const useDropdown = () => useContext(Context);
-
-export default useDropdown;
+export const useDropdown = () => useContext(Context);

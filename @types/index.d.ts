@@ -10,17 +10,12 @@ declare module '*.svg' {
 
 declare module '*.otf';
 
-interface IAttachment {
+declare type TAttachment = {
   uri: string;
   name: string;
   type: string;
-}
+};
 
-declare interface FormData {
-  append(name: string, data: IAttachment): void;
-}
-
-interface IOption {
-  label: string;
-  value: string | number;
-}
+declare type TFormData = {
+  append(name: string, data: TAttachment): void;
+};

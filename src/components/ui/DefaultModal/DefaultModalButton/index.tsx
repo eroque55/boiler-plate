@@ -1,6 +1,6 @@
 import { Text } from 'react-native';
 
-import { useDisableDelay } from '@/hooks/useDisableDelay';
+import { useDisableDelay } from '@/hooks/common';
 
 import ButtonActivityIndicator from '../../Button/ButtonActivityIndicator';
 import Pressable from '../../Pressable';

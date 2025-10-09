@@ -11,7 +11,7 @@ import Animated, {
   LinearTransition,
 } from 'react-native-reanimated';
 
-import useDimensions from '@/hooks/useDimensions';
+import { useDimensions } from '@/hooks/common';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 

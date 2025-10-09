@@ -34,6 +34,4 @@ export const DefaultModalProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-const useDefaultModal = () => useContext(DefaultModalContext);
-
-export default useDefaultModal;
+export const useDefaultModal = () => useContext(DefaultModalContext);

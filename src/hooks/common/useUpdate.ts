@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react';
 
 import { handleSuccess } from '@/utils/handleError';
 
-const useUpdate = () => {
+export const useUpdate = () => {
   const [isLoading, setIsLoadingUpdate] = useState(false);
+
   useEffect(() => {
     const update = async () => {
-      try {
-        if (__DEV__) {
-          return;
-        }
+      if (__DEV__) {
+        return;
+      }
 
+      try {
         setIsLoadingUpdate(true);
         const { isAvailable } = await Updates.checkForUpdateAsync();
 
@@ -30,5 +31,3 @@ const useUpdate = () => {
 
   return isLoading;
 };
-
-export default useUpdate;
