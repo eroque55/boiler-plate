@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { BackHandler } from 'react-native';
 
-import { useDefaultModal } from '@/contexts';
+import { useDefaultModal } from '@/store/defaultModalStore';
 
 export const usePreventBack = (enabled?: boolean) => {
   const { openModal } = useDefaultModal();

@@ -6,7 +6,7 @@ import { Text, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 
 import { Button, Checkbox, Input, Pressable } from '@/components/ui';
-import { useAuth } from '@/contexts';
+import { useAuth } from '@/contexts/useAuth';
 import { LoginForm, LoginSchema } from '@/validation/login.validation';
 
 const Login = () => {

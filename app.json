@@ -20,8 +20,7 @@
         "foregroundImage": "./assets/expo/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "edgeToEdgeEnabled": true,
-      "package": "com.mestresdaweb.changethisname"
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "output": "static",
@@ -33,15 +32,10 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/expo/splash-icon-light.png",
-          "backgroundColor": "#FFFFFF",
-          "dark": {
-            "image": "./assets/expo/splash-icon-dark.png",
-            "backgroundColor": "#1B1B1B"
-          },
-          "imageWidth": 200
+          "image": "./assets/expo/splash-icon.png"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,

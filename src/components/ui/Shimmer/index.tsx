@@ -1,83 +1,77 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { useCallback } from 'react';
-import { LayoutChangeEvent, View } from 'react-native';
+import { useEffect } from 'react';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
   withRepeat,
-  withSequence,
   withTiming,
 } from 'react-native-reanimated';
 
 import { colors } from '@/global/colors';
 
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.neutral.placeholder,
+    overflow: 'hidden',
+  },
+  animatedWrapper: {
+    width: '100%',
+    height: '100%',
+  },
+  gradient: {
+    flex: 1,
+  },
+});
+
 type Props = {
   width?: number;
   height?: number;
-  color?: string;
   borderRadius?: number;
 };
 
-const Shimmer = ({
-  width,
-  height,
-  color = colors.neutral.placeholder,
-  borderRadius = 2,
-}: Props) => {
-  const containerWidth = useSharedValue(0);
-  const translateX = useSharedValue(0);
+const Shimmer = ({ width, height, borderRadius = 2 }: Props) => {
+  const { width: screenWidth } = useWindowDimensions();
+  const translateX = useSharedValue(-screenWidth);
 
-  const onLayout = useCallback((event: LayoutChangeEvent) => {
-    const { width: measuredWidth } = event.nativeEvent.layout;
-    containerWidth.value = measuredWidth;
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
 
-    if (measuredWidth > 0) {
-      const startPosition = -measuredWidth * 3;
-      const endPosition = measuredWidth;
-
-      translateX.value = startPosition;
-
-      translateX.value = withRepeat(
-        withSequence(
-          withTiming(endPosition * 2, {
-            duration: 1500,
-            easing: Easing.linear,
-          }),
-          withDelay(500, withTiming(startPosition, { duration: 0 })),
-        ),
-        -1,
-        false,
-      );
-    }
-  }, []);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: translateX.value }],
-    };
-  });
+  useEffect(() => {
+    translateX.value = withRepeat(
+      withTiming(screenWidth, { duration: 2000, easing: Easing.linear }),
+      -1,
+      false,
+    );
+  }, [screenWidth]);
 
   return (
-    <View
-      className="overflow-hidden"
-      style={{
-        width: width || '100%',
-        height: height || '100%',
-        borderRadius,
-        backgroundColor: color,
-      }}
+    <Animated.View
+      style={[
+        styles.container,
+        {
+          width: width || '100%',
+          height: height || '100%',
+          borderRadius,
+        },
+      ]}
     >
-      <View className="absolute inset-0" onLayout={onLayout}>
-        <Animated.View className="flex-1 justify-center" style={animatedStyle}>
-          <LinearGradient
-            className="h-48 w-[300%] rotate-45"
-            colors={['transparent', '#f5f5f5', 'transparent']}
-          />
-        </Animated.View>
-      </View>
-    </View>
+      <Animated.View style={[styles.animatedWrapper, animatedStyle]}>
+        <LinearGradient
+          colors={[
+            colors.transparent,
+            'rgba(255, 255, 255, 0.7)',
+            colors.transparent,
+          ]}
+          end={{ x: 0, y: 0 }}
+          locations={[0.35, 0.5, 0.65]}
+          start={{ x: 1, y: 0.5 }}
+          style={styles.gradient}
+        />
+      </Animated.View>
+    </Animated.View>
   );
 };
 

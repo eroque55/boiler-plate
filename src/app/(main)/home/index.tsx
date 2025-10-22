@@ -2,7 +2,8 @@ import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
 
 import { BackButton, Button } from '@/components/ui';
-import { useAuth, useDefaultModal } from '@/contexts';
+import { useAuth } from '@/contexts/useAuth';
+import { useDefaultModal } from '@/store/defaultModalStore';
 
 const Home = () => {
   const router = useRouter();

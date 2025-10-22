@@ -6,27 +6,27 @@ import { View } from 'react-native';
 import Shimmer from '../Shimmer';
 
 type Props = {
-  withoutShimmer?: boolean;
+  showShimmer?: boolean;
 } & ImageProps;
 
 const Image = ({
   children,
   style,
-  withoutShimmer,
+  showShimmer = false,
   className,
   ...props
 }: PropsWithChildren<Props>) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onLoad = () => {
+    setIsLoading(false);
+  };
 
   return (
     <View className={`overflow-hidden ${className}`} style={style}>
-      <ExpoImage
-        style={{ flex: 1 }}
-        onDisplay={() => setIsLoading(false)}
-        {...props}
-      />
+      <ExpoImage style={{ flex: 1 }} onLoad={onLoad} {...props} />
 
-      {isLoading && !withoutShimmer && (
+      {isLoading && showShimmer && (
         <View className="absolute inset-0">
           <Shimmer />
         </View>

@@ -13,14 +13,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast, { ErrorToast, ToastConfig } from 'react-native-toast-message';
 
 import { DefaultModal } from '@/components/ui';
-import {
-  AuthProvider,
-  DefaultModalProvider,
-  DropdownProvider,
-  useAuth,
-} from '@/contexts';
+import { AuthProvider, useAuth } from '@/contexts/useAuth';
 import { colors } from '@/global/colors';
 import { useDimensions, useUpdate } from '@/hooks/common';
+import { useDropdownRouteReset } from '@/store/dropdownStore';
 import { handleError } from '@/utils/handleError';
 
 export { ErrorBoundary } from '@/components/ui/ErrorBoundary';
@@ -81,6 +77,8 @@ const RootLayout = () => {
 
   const isAppReady = !isLoading && fontsLoaded;
 
+  useDropdownRouteReset();
+
   if (!isAppReady) {
     return null;
   }
@@ -91,17 +89,13 @@ const RootLayout = () => {
         <QueryClientProvider client={queryClient}>
           <SafeAreaProvider>
             <AuthProvider isAppReady={isAppReady}>
-              <DefaultModalProvider>
-                <DropdownProvider>
-                  <StatusBar style="auto" />
+              <StatusBar style="auto" />
 
-                  <ProtectedStack />
+              <ProtectedStack />
 
-                  <DefaultModal />
+              <DefaultModal />
 
-                  <Toast config={toastConfig} />
-                </DropdownProvider>
-              </DefaultModalProvider>
+              <Toast config={toastConfig} />
             </AuthProvider>
           </SafeAreaProvider>
         </QueryClientProvider>
