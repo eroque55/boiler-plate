@@ -46,7 +46,7 @@ const Login = () => {
       >
         <Checkbox control={control} name="requestRefresh" />
 
-        <Text className="text-base text-neutral-80">Manter-me conectado</Text>
+        <Text className="text-neutral-80 text-base">Manter-me conectado</Text>
       </Animated.View>
 
       <Button text="Entrar" onPress={handleSubmit(login)} />
@@ -56,7 +56,7 @@ const Login = () => {
         onPress={() => setShowUpdateId(!showUpdateId)}
       >
         {showUpdateId && (
-          <Text className="text-xs text-neutral-60">{updateId}</Text>
+          <Text className="text-xs text-neutral-600">{updateId}</Text>
         )}
       </Pressable>
     </View>

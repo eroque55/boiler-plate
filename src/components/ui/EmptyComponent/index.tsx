@@ -7,7 +7,7 @@ type Props = {
 const EmptyComponent = ({ text = 'Nada encontrado' }: Props) => {
   return (
     <View className="flex-1 items-center justify-center py-10">
-      <Text className="text-base text-neutral-60">{text}</Text>
+      <Text className="text-base text-neutral-600">{text}</Text>
     </View>
   );
 };

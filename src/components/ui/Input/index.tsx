@@ -108,14 +108,14 @@ const Input = <TFieldValues extends FieldValues>({
       {...containerProps}
     >
       {label && (
-        <Text className="font-areaextend_semibold text-base text-neutral-60">
+        <Text className="font-areaextend_semibold text-base text-neutral-600">
           {label}
         </Text>
       )}
 
       <View className="w-full gap-px">
         <View
-          className="w-full flex-row items-center rounded-lg border border-neutral-20 bg-white"
+          className="border-neutral-20 w-full flex-row items-center rounded-lg border bg-white"
           style={{ minHeight }}
         >
           {type ? (
