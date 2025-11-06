@@ -1,4 +1,5 @@
 const js = require('@eslint/js');
+const pluginQuery = require('@tanstack/eslint-plugin-query');
 const { defineConfig, globalIgnores } = require('eslint/config');
 const expoConfig = require('eslint-config-expo/flat');
 const eslintConfigPrettier = require('eslint-config-prettier/flat');
@@ -7,7 +8,8 @@ const preferArrowFunctions = require('eslint-plugin-prefer-arrow-functions');
 const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
 const pluginReact = require('eslint-plugin-react');
 const pluginReactNative = require('eslint-plugin-react-native');
-const { configs } = require('typescript-eslint');
+const globals = require('globals');
+const tseslint = require('typescript-eslint');
 
 module.exports = defineConfig([
   globalIgnores([
@@ -18,9 +20,10 @@ module.exports = defineConfig([
     'ios/*',
     '.expo/*',
     'web-build/*',
+    '*.config.*',
   ]),
-  configs.recommended,
-  configs.stylistic,
+  js.configs.recommended,
+  tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
   pluginReact.configs.flat['jsx-runtime'],
   expoConfig,
@@ -33,10 +36,12 @@ module.exports = defineConfig([
       js,
       'prefer-arrow-functions': preferArrowFunctions,
       'react-native': pluginReactNative,
+      '@tanstack/query': pluginQuery,
     },
     extends: ['js/recommended'],
     languageOptions: {
       globals: {
+        ...globals.browser,
         __DEV__: 'readonly',
       },
       parserOptions: {
@@ -138,6 +143,15 @@ module.exports = defineConfig([
         },
       ],
 
+      // TanStack Query
+      '@tanstack/query/exhaustive-deps': 'error',
+      '@tanstack/query/no-rest-destructuring': 'error',
+      '@tanstack/query/stable-query-client': 'error',
+      '@tanstack/query/no-unstable-deps': 'error',
+      '@tanstack/query/infinite-query-property-order': 'error',
+      '@tanstack/query/no-void-query-fn': 'error',
+      '@tanstack/query/mutation-property-order': 'error',
+
       // import
       'import/namespace': 'off',
       'import/no-dynamic-require': 'warn',
@@ -185,6 +199,7 @@ module.exports = defineConfig([
       'no-alert': 'warn',
       'prefer-const': 'error',
       'no-var': 'error',
+      'no-unused-vars': 'off',
       'object-shorthand': 'error',
       'prefer-template': 'error',
       'prefer-destructuring': [
@@ -194,6 +209,7 @@ module.exports = defineConfig([
           object: true,
         },
       ],
+      'no-undef': 'off',
 
       // Performance
       'no-await-in-loop': 'warn',
@@ -222,6 +238,12 @@ module.exports = defineConfig([
             {
               name: 'zod',
               message: 'Please import from @/validation/zod instead',
+            },
+            {
+              name: 'react-native-keyboard-controller',
+              importNames: ['KeyboardAwareScrollView'],
+              message:
+                'Please import from @/components/ui/KeyboardAwareScrollView instead',
             },
           ],
           patterns: [
