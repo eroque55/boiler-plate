@@ -1,24 +1,32 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   FieldValues,
   useController,
   UseControllerProps,
 } from 'react-hook-form';
-import { Text, TextInput, TextInputProps, View } from 'react-native';
+import {
+  StyleProp,
+  Text,
+  TextInput,
+  TextInputProps,
+  TextStyle,
+  View,
+  ViewProps,
+} from 'react-native';
 import {
   TextInputMask,
   TextInputMaskOptionProp,
   TextInputMaskTypeProp,
 } from 'react-native-masked-text';
 import Animated, {
-  FadeIn,
-  FadeOut,
+  AnimatedProps,
   LinearTransition,
 } from 'react-native-reanimated';
 
 import { colors } from '@/global/colors';
 
-import Icon from '../Icon';
+import ErrorText from '../ErrorText';
+import Icon, { IconProps } from '../Icon';
 import Pressable from '../Pressable';
 
 type Props<TFieldValues extends FieldValues> = {
@@ -27,8 +35,9 @@ type Props<TFieldValues extends FieldValues> = {
   placeholder?: string;
   type?: TextInputMaskTypeProp;
   options?: TextInputMaskOptionProp;
-  isBlocked?: boolean;
   minHeight?: number;
+  containerProps?: AnimatedProps<ViewProps>;
+  icon?: IconProps;
 } & TextInputProps &
   UseControllerProps<TFieldValues>;
 
@@ -38,18 +47,19 @@ const Input = <TFieldValues extends FieldValues>({
   placeholder,
   type,
   options,
-  isBlocked,
   control,
   name,
   autoCapitalize = 'none',
   minHeight,
+  containerProps,
+  icon,
   multiline,
   maxLength,
   ...props
 }: Props<TFieldValues>) => {
   const [passwordHidden, setPasswordHidden] = useState(isPassword);
 
-  const length = useMemo(() => {
+  const length = () => {
     if (maxLength) {
       return maxLength;
     }
@@ -57,7 +67,7 @@ const Input = <TFieldValues extends FieldValues>({
       return 250;
     }
     return 100;
-  }, [multiline, maxLength]);
+  };
 
   const {
     field,
@@ -67,68 +77,56 @@ const Input = <TFieldValues extends FieldValues>({
     name,
   });
 
-  return (
-    <Animated.View className="w-full gap-1" layout={LinearTransition}>
-      {label && <Text className="text-base text-neutral-80">{label}</Text>}
+  const inputStyle: StyleProp<TextStyle> = {
+    flexGrow: 1,
+    height: '100%',
+    padding: 12,
+    fontSize: 14,
+    color: colors.neutral[600],
+    paddingRight: isPassword || icon ? 44 : undefined,
+  };
 
-      <View>
+  const commonProps: TextInputProps = {
+    autoCapitalize,
+    maxLength: length(),
+    multiline: !!minHeight || multiline,
+    placeholder,
+    placeholderTextColor: colors.neutral[400],
+    secureTextEntry: passwordHidden,
+    style: inputStyle,
+    textAlignVertical: 'top',
+    value: field.value,
+    onChangeText: field.onChange,
+    onBlur: field.onBlur,
+    ...props,
+  };
+
+  return (
+    <Animated.View
+      className="w-full gap-2"
+      layout={LinearTransition}
+      {...containerProps}
+    >
+      {label && (
+        <Text className="font-areaextend_semibold text-base text-neutral-60">
+          {label}
+        </Text>
+      )}
+
+      <View className="w-full gap-px">
         <View
-          className="w-full flex-row items-center rounded-lg border border-neutral-20"
+          className="w-full flex-row items-center rounded-lg border border-neutral-20 bg-white"
           style={{ minHeight }}
         >
           {type ? (
             <TextInputMask
-              ref={field.ref}
-              autoCapitalize={autoCapitalize}
-              editable={!isBlocked}
-              maxLength={length}
-              multiline={!!minHeight || multiline}
               options={options}
-              placeholder={placeholder}
-              placeholderTextColor={colors.neutral[40]}
               refInput={field.ref}
-              secureTextEntry={passwordHidden}
-              style={{
-                flexGrow: 1,
-                height: '100%',
-                minHeight: 44,
-                padding: 8,
-                fontSize: 18,
-                lineHeight: 28,
-                color: colors.neutral[60],
-                paddingRight: isPassword || isBlocked ? 44 : undefined,
-              }}
-              textAlignVertical="top"
               type={type}
-              value={field.value}
-              onChangeText={field.onChange}
-              {...props}
+              {...commonProps}
             />
           ) : (
-            <TextInput
-              ref={field.ref}
-              autoCapitalize={autoCapitalize}
-              className="h-full min-h-11 flex-grow p-2 text-lg text-neutral-60"
-              editable={!isBlocked}
-              maxLength={length}
-              multiline={!!minHeight || multiline}
-              placeholder={placeholder}
-              placeholderTextColor={colors.neutral[40]}
-              secureTextEntry={passwordHidden}
-              style={{
-                paddingRight: isPassword || isBlocked ? 44 : undefined,
-              }}
-              textAlignVertical="top"
-              value={field.value}
-              onChangeText={field.onChange}
-              {...props}
-            />
-          )}
-
-          {isBlocked && (
-            <View className="absolute right-3 h-6 w-6 items-center justify-center self-center">
-              <Icon color={colors.neutral[60]} name="PadlockIcon" />
-            </View>
+            <TextInput ref={field.ref} {...commonProps} />
           )}
 
           {isPassword && (
@@ -139,25 +137,22 @@ const Input = <TFieldValues extends FieldValues>({
               }}
             >
               <Icon
-                color={
-                  passwordHidden ? colors.neutral[40] : colors.primary[100]
-                }
+                key={passwordHidden ? 'EyeOff' : 'Eye'}
                 name={passwordHidden ? 'EyeOffIcon' : 'EyeIcon'}
-                size={25}
+                size={24}
+                strokeWidth={1.5}
               />
             </Pressable>
           )}
+
+          {icon && (
+            <View className="absolute right-2 self-center">
+              <Icon {...icon} />
+            </View>
+          )}
         </View>
 
-        {error?.message && (
-          <Animated.Text
-            className="text-xs text-alert-error"
-            entering={FadeIn}
-            exiting={FadeOut}
-          >
-            {error.message}
-          </Animated.Text>
-        )}
+        <ErrorText text={error?.message} />
       </View>
     </Animated.View>
   );

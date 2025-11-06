@@ -52,7 +52,7 @@ const Button = ({
       return color;
     }
 
-    return colors.neutral.white;
+    return colors.white;
   };
 
   const handlePress = async (e: GestureResponderEvent) => {

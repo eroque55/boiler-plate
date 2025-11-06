@@ -69,7 +69,7 @@ export const AuthProvider = ({
 
       await setItemAsync('accessToken', data.jwt);
 
-      if (data.refreshToken && form?.requestRefresh) {
+      if (data.refreshToken) {
         await setItemAsync('refreshToken', data.refreshToken);
       }
 

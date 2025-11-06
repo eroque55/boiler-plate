@@ -52,7 +52,7 @@ const ProtectedStack = () => {
         animation: 'fade',
         headerShown: false,
         contentStyle: {
-          backgroundColor: colors.neutral.background,
+          backgroundColor: colors.white,
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
           paddingLeft: insets.left,

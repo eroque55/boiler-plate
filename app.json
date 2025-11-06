@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/expo/icon.png",
     "scheme": "myapp",
-    "owner": "mestresdaweb",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "updates": {

@@ -1,10 +1,8 @@
-export { default as BackButton } from './BackButton';
 export { default as Button } from './Button';
 export { default as Checkbox } from './Checkbox';
 export { default as DefaultModal } from './DefaultModal';
-export { default as Dropdown } from './Dropdown';
-export { default as DropdownMultiple } from './DropdownMultiple';
 export { default as EmptyComponent } from './EmptyComponent';
+export { default as ErrorText } from './ErrorText';
 export { default as Icon } from './Icon';
 export { default as Image } from './Image';
 export { default as Input } from './Input';

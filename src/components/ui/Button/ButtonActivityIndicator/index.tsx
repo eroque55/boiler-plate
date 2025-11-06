@@ -10,7 +10,7 @@ const ButtonActivityIndicator = () => {
       entering={FadeIn}
       exiting={FadeOut}
     >
-      <ActivityIndicator color={colors.neutral.white} size={20} />
+      <ActivityIndicator color={colors.white} size={20} />
     </Animated.View>
   );
 };

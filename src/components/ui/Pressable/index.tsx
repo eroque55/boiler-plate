@@ -1,34 +1,34 @@
 /* eslint-disable no-restricted-imports */
 import { PropsWithChildren } from 'react';
 import {
-  GestureResponderEvent,
   PressableProps,
   Pressable as RNPressable,
+  StyleProp,
   View,
+  ViewStyle,
 } from 'react-native';
-import { KeyboardController } from 'react-native-keyboard-controller';
 import Animated from 'react-native-reanimated';
 
+type Props = {
+  showFeedback?: boolean;
+  style?: StyleProp<ViewStyle>;
+} & PressableProps;
+
 const Pressable = ({
+  showFeedback = true,
   children,
-  onPress,
+  style,
   ...props
-}: PropsWithChildren<PressableProps>) => {
-  const handlePress = (event: GestureResponderEvent) => {
-    KeyboardController.dismiss();
-
-    if (onPress) {
-      onPress(event);
-    }
-  };
-
+}: PropsWithChildren<Props>) => {
   return (
-    <RNPressable onPress={handlePress} {...props}>
+    <RNPressable style={[{ overflow: 'hidden' }, style]} {...props}>
       {({ pressed }) => (
         <>
           {children}
 
-          {pressed && <View className="absolute inset-0 bg-black/10" />}
+          {pressed && showFeedback && (
+            <View className="absolute inset-0 bg-black/10" />
+          )}
         </>
       )}
     </RNPressable>

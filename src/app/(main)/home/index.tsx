@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
 
-import { BackButton, Button } from '@/components/ui';
+import { Button } from '@/components/ui';
 import { useAuth } from '@/contexts/useAuth';
 import { useDefaultModal } from '@/store/defaultModalStore';
 
@@ -25,8 +25,6 @@ const Home = () => {
 
   return (
     <View className="flex-1 items-center justify-center gap-20 p-4">
-      <BackButton />
-
       <View className="w-full">
         <Text className="text-base text-neutral-60">Bem Vindo</Text>
 
